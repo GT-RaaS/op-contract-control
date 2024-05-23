@@ -1,0 +1,10 @@
+# optimism project root path
+export PROJECT_ROOT=
+
+export ABI_FOLDER=${PROJECT_ROOT}/packages/contracts-bedrock/forge-artifacts
+export ADDRESS_FILE=${PROJECT_ROOT}/packages/contracts-bedrock/deployments/getting-started/.deploy
+
+export L1_RPC_ENDPOINT=
+
+# private key of admin account
+export ADMIN_PK=
