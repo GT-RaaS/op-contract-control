@@ -8,3 +8,4 @@ export L1_RPC_ENDPOINT=
 
 # private key of admin account
 export ADMIN_PK=
+export ACC1_PK=
