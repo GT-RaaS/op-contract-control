@@ -1,4 +1,5 @@
 const SystemConfig = require("../contracts/SystemConfig.js")
+const sc = new SystemConfig()
 
 async function print() {
     let [
@@ -9,10 +10,10 @@ async function print() {
         resourceConfig,
         unsafeBlockSigner,
     ] = await Promise.all([
-        SystemConfig.batcherHash(), // 0x00000000000000000000000074a688a092ee83a98f2c7b4f559648839ba62c37
-        SystemConfig.overhead(), // 2100
-        SystemConfig.scalar(), // 1000000
-        SystemConfig.gasLimit(), // 30000000
+        sc.batcherHash(), // 0x00000000000000000000000074a688a092ee83a98f2c7b4f559648839ba62c37
+        sc.overhead(), // 2100
+        sc.scalar(), // 1000000
+        sc.gasLimit(), // 30000000
         /*
         resourceConfig: {
             maxResourceLimit: 20000000n,
@@ -23,8 +24,8 @@ async function print() {
             maximumBaseFee: 340282366920938463463374607431768211455n
         }
         */
-        SystemConfig.resourceConfig(),
-        SystemConfig.unsafeBlockSigner() // 0x03d12D075C7327f9AC01BD703179d22709b2BdD5
+        sc.resourceConfig(),
+        sc.unsafeBlockSigner() // 0x03d12D075C7327f9AC01BD703179d22709b2BdD5
     ])
     console.log({
         batcherHash,
@@ -38,16 +39,16 @@ async function print() {
 
 async function set() {
     console.log("SystemConfig.setBatcherHash")
-    let txRspSetBatcherHash = await SystemConfig.setBatcherHash("0x00000000000000000000000074a688a092ee83a98f2c7b4f559648839ba62c38")
+    let txRspSetBatcherHash = await sc.setBatcherHash("0x00000000000000000000000074a688a092ee83a98f2c7b4f559648839ba62c38")
     await txRspSetBatcherHash.wait()
     console.log("SystemConfig.setGasConfig")
-    let txRspSetGasConfig = await SystemConfig.setGasConfig(32100, 31000000)
+    let txRspSetGasConfig = await sc.setGasConfig(32100, 31000000)
     await txRspSetGasConfig.wait()
     console.log("SystemConfig.setGasLimit")
-    let txRspSetGasLimit = await SystemConfig.setGasLimit(30000000)
+    let txRspSetGasLimit = await sc.setGasLimit(30000000)
     await txRspSetGasLimit.wait()
     console.log("SystemConfig.setUnsafeBlockSigner")
-    let txRspSetUnsafeBlockSigner = await SystemConfig.setUnsafeBlockSigner("0x73768Ae43c8621a5821cD6A18dd828328cEa2B9F")
+    let txRspSetUnsafeBlockSigner = await sc.setUnsafeBlockSigner("0x73768Ae43c8621a5821cD6A18dd828328cEa2B9F")
     await txRspSetUnsafeBlockSigner.wait()
     console.log("SystemConfig.setResourceConfig")
     let resourceConfig = {
@@ -58,7 +59,7 @@ async function set() {
         systemTxMaxGas: 1000000n,
         maximumBaseFee: 340282366920938463463374607431768211455n
     }
-    let txRspSetResourceConfig = await SystemConfig.setResourceConfig(resourceConfig)
+    let txRspSetResourceConfig = await sc.setResourceConfig(resourceConfig)
     await txRspSetResourceConfig.wait()
 }
 
