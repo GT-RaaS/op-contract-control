@@ -4,25 +4,31 @@ const {implWithSigner} = instantiate
 
 const impl = implWithSigner("SuperchainConfig")
 
-////// read //////
-const guardian = async () => impl.guardian()
-const paused = async () => impl.paused()
-const version = async () => impl.version()
-
-////// write //////
-const pause = async (identifier) => impl.pause(identifier)
-const unpause = async () => impl.unpause()
-
-// CHECK:
-// initialize
-
-module.exports = {
-    /* 合约方法 */
+class SuperchainConfig {
+    constructor() {
+        this.impl = impl
+    }
+    connect(signer) {
+        this.impl = this.impl.connect(signer)
+    }
     ////// read //////
-    guardian,
-    paused,
-    version,
+    guardian() {
+        return this.impl.guardian()
+    }
+    paused() {
+        return this.impl.paused()
+    }
+    version() {
+        return this.impl.version()
+    }
     ////// write //////
-    pause,
-    unpause
+    pause(identifier) {
+        return this.impl.pause(identifier)
+    }
+    unpause() {
+        return this.impl.unpause()
+    }
+    // initialize 方法只能调用一次
 }
+
+module.exports = SuperchainConfig

@@ -2,7 +2,8 @@ const ethers = require("ethers")
 const fs = require('fs')
 
 const provider = new ethers.JsonRpcProvider(process.env.L1_RPC_ENDPOINT)
-const wallet = new ethers.Wallet(process.env.ADMIN_PK, provider)
+const adminWallet = new ethers.Wallet(process.env.ADMIN_PK, provider)
+const acc1Wallet = new ethers.Wallet(process.env.ACC1_PK, provider)
 
 function getABI(name) {
     const apiPath = `${process.env.ABI_FOLDER}/${name}.sol/${name}.json`
@@ -28,11 +29,12 @@ module.exports = {
     implWithSigner: function(name) {
         const {abi, address} = implMeta(name)
         const contract = new ethers.Contract(address, abi, provider)
-        return contract.connect(wallet)
+        return contract.connect(adminWallet)
     },
     proxyWithSigner: function(name) {
         const {abi, address} = proxyMeta(name)
         const contract = new ethers.Contract(address, abi, provider)
-        return contract.connect(wallet)
-    }
+        return contract.connect(adminWallet)
+    },
+    wallets: [adminWallet, acc1Wallet]
 }
