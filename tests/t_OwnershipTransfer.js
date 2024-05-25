@@ -1,7 +1,7 @@
-const SystemConfig = require("../contracts/SystemConfig.js")
-const ProtocolVersions = require("../contracts/ProtocolVersions.js")
-const DisputeGameFactory = require("../contracts/DisputeGameFactory.js")
-const Instantiation = require("../contracts/instantiate.js")
+const SystemConfig = require("../src/contract-instance/SystemConfig.js")
+const ProtocolVersions = require("../src/contract-instance/ProtocolVersions.js")
+const DisputeGameFactory = require("../src/contract-instance/DisputeGameFactory.js")
+const Instantiation = require("../src/contract-instance/instantiate.js")
 
 const [adminWallet, acc1Wallet] = Instantiation.wallets
 

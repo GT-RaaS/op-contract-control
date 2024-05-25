@@ -1,4 +1,4 @@
-const SuperchainConfig = require("../contracts/SuperchainConfig.js")
+const SuperchainConfig = require("../src/contract-instance/SuperchainConfig.js")
 const scc = new SuperchainConfig()
 
 async function pause() {
