@@ -17,6 +17,11 @@ function getAddress(name) {
 
 const implMeta = name => ({
     abi: getABI(name),
+    address: getAddress(name)
+})
+
+const implViaProxyMeta = name => ({
+    abi: getABI(name),
     address: getAddress(name + "Proxy") // 通过代理地址操作合约
 })
 
@@ -26,8 +31,16 @@ const proxyMeta = name => ({
 })
 
 module.exports = {
+    getABI,
+    getAddress,
+
     implWithSigner: function(name) {
         const {abi, address} = implMeta(name)
+        const contract = new ethers.Contract(address, abi, provider)
+        return contract.connect(adminWallet)
+    },
+    implViaProxyWithSigner: function(name) {
+        const {abi, address} = implViaProxyMeta(name)
         const contract = new ethers.Contract(address, abi, provider)
         return contract.connect(adminWallet)
     },
@@ -36,5 +49,6 @@ module.exports = {
         const contract = new ethers.Contract(address, abi, provider)
         return contract.connect(adminWallet)
     },
-    wallets: [adminWallet, acc1Wallet]
+    wallets: [adminWallet, acc1Wallet],
+    provider
 }

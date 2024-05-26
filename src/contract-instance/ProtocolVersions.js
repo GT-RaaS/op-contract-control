@@ -1,8 +1,8 @@
 const instantiate = require("./instantiate.js")
 
-const {implWithSigner} = instantiate
+const {implViaProxyWithSigner} = instantiate
 
-const impl = implWithSigner("ProtocolVersions")
+const impl = implViaProxyWithSigner("ProtocolVersions")
 
 class ProtocolVersions {
     constructor() {

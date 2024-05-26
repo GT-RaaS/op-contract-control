@@ -1,18 +1,24 @@
 const instantiate = require("./instantiate.js")
 
-const {implWithSigner} = instantiate
+const {implViaProxyWithSigner} = instantiate
 
-const impl = implWithSigner("DisputeGameFactory")
+const impl = implViaProxyWithSigner("DisputeGameFactory")
 
-// 不完整
 class DisputeGameFactory {
+    constructor() {
+        this.impl = impl
+    }
+    connect(signer) {
+        this.impl = this.impl.connect(signer)
+    }
+    /* 合约方法 */
     ////// read //////
     owner() {
-        return impl.owner()
+        return this.impl.owner()
     }
     ////// write //////
     transferOwnership(newOwner) {
-        return impl.transferOwnership(newOwner)
+        return this.impl.transferOwnership(newOwner)
     }
 }
 

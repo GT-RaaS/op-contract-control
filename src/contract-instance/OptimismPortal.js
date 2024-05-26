@@ -1,10 +1,9 @@
 const instantiate = require("./instantiate.js")
 
-const {implWithSigner} = instantiate
+const {implViaProxyWithSigner} = instantiate
 
-const impl = implWithSigner("OptimismPortal")
+const impl = implViaProxyWithSigner("OptimismPortal")
 
-// 不完整
 class OptimismPortal {
     ////// read //////
     guardian() {
@@ -12,10 +11,5 @@ class OptimismPortal {
     }
 }
 
-async function run() {
-    console.log(await impl.guardian())
-}
-
-run()
 
 module.exports = OptimismPortal
