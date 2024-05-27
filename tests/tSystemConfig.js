@@ -1,7 +1,9 @@
 const SystemConfig = require("../src/contract-instance/SystemConfig.js")
 const sc = new SystemConfig()
 
-async function print() {
+let parameters = {}
+
+async function print(keep) {
     let [
         batcherHash,
         overhead,
@@ -27,6 +29,16 @@ async function print() {
         sc.resourceConfig(),
         sc.unsafeBlockSigner() // 0x03d12D075C7327f9AC01BD703179d22709b2BdD5
     ])
+    if (keep == true) {
+        parameters = {
+            batcherHash,
+            overhead,
+            scalar,
+            gasLimit,
+            resourceConfig,
+            unsafeBlockSigner,
+        }
+    }
     console.log({
         batcherHash,
         overhead,
@@ -45,7 +57,7 @@ async function set() {
     let txRspSetGasConfig = await sc.setGasConfig(32100, 31000000)
     await txRspSetGasConfig.wait()
     console.log("SystemConfig.setGasLimit")
-    let txRspSetGasLimit = await sc.setGasLimit(30000000)
+    let txRspSetGasLimit = await sc.setGasLimit(330000000)
     await txRspSetGasLimit.wait()
     console.log("SystemConfig.setUnsafeBlockSigner")
     let txRspSetUnsafeBlockSigner = await sc.setUnsafeBlockSigner("0x73768Ae43c8621a5821cD6A18dd828328cEa2B9F")
@@ -63,12 +75,28 @@ async function set() {
     await txRspSetResourceConfig.wait()
 }
 
+async function setBack() {
+    let txRspSetBatcherHash = await sc.setBatcherHash(parameters.batcherHash)
+    await txRspSetBatcherHash.wait()
+    let txRspSetGasConfig = await sc.setGasConfig(parameters.overhead, parameters.scalar)
+    await txRspSetGasConfig.wait()
+    let txRspSetGasLimit = await sc.setGasLimit(parameters.gasLimit)
+    await txRspSetGasLimit.wait()
+    let txRspSetUnsafeBlockSigner = await sc.setUnsafeBlockSigner(parameters.unsafeBlockSigner)
+    await txRspSetUnsafeBlockSigner.wait()
+    let txRspSetResourceConfig = await sc.setResourceConfig(parameters.resourceConfig)
+    await txRspSetResourceConfig.wait()
+}
+
 async function run() {
     console.log("before config SystemConfig")
-    await print()
+    await print(true)
     await set()
     console.log("after config SystemConfig")
-    await print()
+    await print(false)
+    console.log("restore config")
+    await setBack()
+    await print(false)
 }
 // run()
 
