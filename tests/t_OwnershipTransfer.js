@@ -26,7 +26,7 @@ async function systemConfigTransferOwnership() {
     await transferOwnership(sc, adminWallet.address)
 }
 
-async function ProtocolVersionsTransferOwnership() {
+async function protocolVersionsTransferOwnership() {
     console.log("ProtocolVersions.transferOwnership")
     pv = new ProtocolVersions()
     await transferOwnership(pv, acc1Wallet.address)
@@ -36,6 +36,8 @@ async function ProtocolVersionsTransferOwnership() {
 
 const {transOwnerDisputeGameFactory, transOwnerProxyAdmin} = callViaSafe
 
+// 由SafeProxy作为owner的需要通过Safe合约进行所有权转让
+// 包括：DisputeGameFactory，ProxyAdmin
 async function transViaSafe() {
     const newOwner = adminWallet.address
     console.log(`Transfer ownership to Admin(${newOwner}) via safe`)
@@ -55,4 +57,10 @@ async function transViaSafe() {
     console.log("ProxyAdmin owner (after):", await proxyAdmin.owner())
 }
 
-transViaSafe()
+async function run() {
+    await systemConfigTransferOwnership()
+    await protocolVersionsTransferOwnership()
+    await transViaSafe()
+}
+
+module.exports = run
