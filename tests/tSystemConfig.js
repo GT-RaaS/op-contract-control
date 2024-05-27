@@ -1,4 +1,4 @@
-const SystemConfig = require("../contracts/SystemConfig.js")
+const SystemConfig = require("../src/contract-instance/SystemConfig.js")
 const sc = new SystemConfig()
 
 async function print() {
